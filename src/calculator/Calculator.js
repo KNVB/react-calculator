@@ -131,6 +131,7 @@ export default class Calculator {
               throw new Error('The expression is missing operand.');
             }
             break;
+          default:break;  
         }
       });
       return calculationQueue;
@@ -154,9 +155,9 @@ export default class Calculator {
             while (operatorStack.length > 0) {
               preObj = operatorStack[operatorStack.length - 1];
               if (
-                (tokenObj.associative == 'left' &&
+                (tokenObj.associative === 'left' &&
                   tokenObj.precedence <= preObj.precedence) ||
-                (tokenObj.associative == 'right' &&
+                (tokenObj.associative === 'right' &&
                   tokenObj.precedence < preObj.precedence)
               ) {
                 resultQueue.push(operatorStack.pop());
@@ -178,12 +179,13 @@ export default class Calculator {
               }
             }
             if (!foundOpenBracket) {
-              throw 'Missing "("';
+              throw new Error('Missing "("');
             }
             break;
           case TokenType.NUMBER:
             resultQueue.push(tokenObj);
             break;
+          default:break;  
         }
       });
       resultQueue = resultQueue.concat(operatorStack.reverse());
@@ -210,6 +212,7 @@ export default class Calculator {
               myX = myX.replace(target, '-');
               steps.push(myX);
               break;
+            default:break;  
           }
           console.log('simplify:1:myX=' + myX);
         });

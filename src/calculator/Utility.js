@@ -118,9 +118,9 @@ export default class Utility {
               preObj = tokensQueue[tokensQueue.length - 1];
               console.log('preObj=' + preObj + ',token=' + token);
               if (
-                preObj == undefined ||
-                preObj.tokenType == TokenType.OPENBRACKET ||
-                preObj.tokenType == TokenType.OPERATOR
+                preObj === undefined ||
+                preObj.tokenType === TokenType.OPENBRACKET ||
+                preObj.tokenType === TokenType.OPERATOR
               ) {
                 tokensQueue.push(new Num(token + operand));
                 flag = false;
@@ -166,6 +166,7 @@ export default class Utility {
           case ')':
             bracketCount--;
             break;
+          default:break;  
         }
         tokensQueue.push(Utility.getObj(token));
       }
