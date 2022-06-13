@@ -58,8 +58,10 @@ export default class Utility {
           result = new Sin();
           break;
         default:
-          throw new Error('Token ' + token + ' is undefined.');
           break;
+      }
+      if (result === null){
+        throw new Error('Token ' + token + ' is undefined.');
       }
       return result;
     } catch (error) {
