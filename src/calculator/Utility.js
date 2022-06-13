@@ -2,11 +2,13 @@ import Add from './tokens/Add';
 import Cos from './tokens/Cos';
 import CloseBracket from './tokens/CloseBracket';
 import Divide from './tokens/Divide';
+import Factorial from './tokens/Factorial';
 import Max from './tokens/Max';
 import Minus from './tokens/Minus';
 import Multiply from './tokens/Multiply';
 import Num from './tokens/Num';
 import OpenBracket from './tokens/OpenBracket';
+import Percentage from './tokens/Percentage';
 import Power from './tokens/Power';
 import Reg from './Reg';
 import Sin from './tokens/Sin';
@@ -19,6 +21,9 @@ export default class Utility {
     let result = null;
     try {
       switch (token.toLowerCase()) {
+        case '%':
+          result =new Percentage();
+          break;  
         case '+':
           result = new Add();
           break;
@@ -34,6 +39,9 @@ export default class Utility {
         case '^':
           result = new Power();
           break;
+        case '!':
+          result=new Factorial();
+          break;  
         case '(':
           result = new OpenBracket();
           break;
@@ -120,7 +128,7 @@ export default class Utility {
               if (
                 preObj === undefined ||
                 preObj.tokenType === TokenType.OPENBRACKET ||
-                preObj.tokenType === TokenType.OPERATOR
+                preObj.tokenType === TokenType.BINARYOPERATOR
               ) {
                 tokensQueue.push(new Num(token + operand));
                 flag = false;
@@ -140,6 +148,8 @@ export default class Utility {
               bracketCount--;
               tokensQueue.push(Utility.getObj(token));
               break;
+            case "%":  
+            case "!":  
             case '*':
             case '/':
             case '^':

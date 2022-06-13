@@ -3,7 +3,7 @@ import TokenType from '../TokenType';
 export default class Minus{
   constructor(){
 		this.associative ="left";
-		this.tokenType = TokenType.OPERATOR;
+		this.tokenType = TokenType.BINARYOPERATOR;
 		this.operandCount=2;
 		this.precedence = 2;
 		this.operatorString="-";		

@@ -3,7 +3,7 @@ import TokenType from '../TokenType';
 export default class Divide{
   constructor(){
 		this.associative ="left";
-		this.tokenType = TokenType.OPERATOR;
+		this.tokenType = TokenType.BINARYOPERATOR;
 		this.operandCount=2;
 		this.precedence = 3;
 		this.operatorString="/";		

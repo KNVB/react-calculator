@@ -7,7 +7,7 @@ export default class Calculator {
     let steps = [];
     this.getSolution = (expression) => {
       expression = expression.replace(/ /g, ''); //trim the expression
-      if (Utility.isValidExpression(expression)){
+      if (Utility.isValidExpression(expression)) {
         steps = [expression];
         console.log('==============================================');
         console.log('getSolution:0:expression=' + expression);
@@ -35,7 +35,7 @@ export default class Calculator {
     };
     /********************************************************************************
     *	Resolve All Bracket in the given expression                                   *
-    ********************************************************************************/	
+    ********************************************************************************/
     let resolveBracket = () => {
       let myExp = steps[steps.length - 1];
       let innerMostBracketContents;
@@ -76,12 +76,12 @@ export default class Calculator {
             temp = temp.substring(0, temp.length - 1);
             console.log(
               'rPN1:' +
-                token.operatorString +
-                '(' +
-                temp +
-                ')' +
-                '=' +
-                result.value
+              token.operatorString +
+              '(' +
+              temp +
+              ')' +
+              '=' +
+              result.value
             );
             myX = steps[steps.length - 1];
             myX = myX.replace(
@@ -94,7 +94,7 @@ export default class Calculator {
           case TokenType.NUMBER:
             calculationQueue.push(token);
             break;
-          case TokenType.OPERATOR:
+          case TokenType.BINARYOPERATOR:
             operand2 = calculationQueue.pop();
             operand1 = calculationQueue.pop();
             if (operand1 != null && operand2 != null) {
@@ -102,24 +102,24 @@ export default class Calculator {
               myX = steps[steps.length - 1];
               console.log(
                 'rPN0:' +
-                  'myX:' +
-                  myX +
-                  ',' +
-                  JSON.stringify(operand1) +
-                  token.operatorString +
-                  JSON.stringify(operand2)
+                'myX:' +
+                myX +
+                ',' +
+                JSON.stringify(operand1) +
+                token.operatorString +
+                JSON.stringify(operand2)
               );
               result = token.evaluate(context);
               console.log(
                 'rPN1:' +
-                  'myX:' +
-                  myX +
-                  ',' +
-                  operand1.value +
-                  token.operatorString +
-                  operand2.value +
-                  '=' +
-                  result.value
+                'myX:' +
+                myX +
+                ',' +
+                operand1.value +
+                token.operatorString +
+                operand2.value +
+                '=' +
+                result.value
               );
               myX = myX.replace(
                 operand1.value + token.operatorString + operand2.value,
@@ -131,7 +131,41 @@ export default class Calculator {
               throw new Error('The expression is missing operand.');
             }
             break;
-          default:break;  
+          case TokenType.UNARYOPERATOR:
+            operand1 = calculationQueue.pop();
+            if (operand1 != null) {
+              token.setOperand(operand1);
+              myX = steps[steps.length - 1];
+              console.log(
+                'rPN0:' +
+                'myX:' +
+                myX +
+                ',' +
+                JSON.stringify(operand1) +
+                token.operatorString
+              );
+              result = token.evaluate(context);
+              console.log(
+                'rPN1:' +
+                'myX:' +
+                myX +
+                ',' +
+                operand1.value +
+                token.operatorString +
+                '=' +
+                result.value
+              );
+              myX = myX.replace(
+                operand1.value + token.operatorString,
+                result.value
+              );
+              steps.push(myX);
+              calculationQueue.push(result);
+            } else {
+              throw new Error('The expression is missing operand.');
+            }
+            break;
+          default: break;
         }
       });
       return calculationQueue;
@@ -151,7 +185,8 @@ export default class Calculator {
           case TokenType.OPENBRACKET:
             operatorStack.push(tokenObj);
             break;
-          case TokenType.OPERATOR:
+          case TokenType.UNARYOPERATOR:
+          case TokenType.BINARYOPERATOR:
             while (operatorStack.length > 0) {
               preObj = operatorStack[operatorStack.length - 1];
               if (
@@ -185,7 +220,7 @@ export default class Calculator {
           case TokenType.NUMBER:
             resultQueue.push(tokenObj);
             break;
-          default:break;  
+          default: break;
         }
       });
       resultQueue = resultQueue.concat(operatorStack.reverse());
@@ -212,12 +247,12 @@ export default class Calculator {
               myX = myX.replace(target, '-');
               steps.push(myX);
               break;
-            default:break;  
+            default: break;
           }
           console.log('simplify:1:myX=' + myX);
         });
         return simplify(myX);
       }
-    };    
+    };
   }
 }

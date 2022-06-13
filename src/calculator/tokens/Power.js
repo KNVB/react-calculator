@@ -3,7 +3,7 @@ import TokenType from '../TokenType';
 export default class Power{
   constructor(){
 		this.associative ="right";
-		this.tokenType = TokenType.OPERATOR;
+		this.tokenType = TokenType.BINARYOPERATOR;
 		this.operandCount=2;
 		this.operatorString="^";
 		this.precedence = 4;		
