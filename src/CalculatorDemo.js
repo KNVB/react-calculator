@@ -17,6 +17,7 @@ let reducer = (state, action) => {
 export default function CalcluatorDemo() {
   const [objList, updateObjList] = useReducer(reducer, {
     expressionList: [
+      { expression: '6$2', steps: [] },
       { expression: '6!^2', steps: [] },
       { expression: '6*-(-2)+sin(30)', steps: [] },
       { expression: '1+2-3*4!/5^6', steps: [] },

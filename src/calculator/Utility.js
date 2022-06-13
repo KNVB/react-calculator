@@ -60,12 +60,13 @@ export default class Utility {
         default:
           break;
       }
+      console.log("getObj:token="+token+",result="+result);
       if (result === null){
         throw new Error('Token ' + token + ' is undefined.');
       }
       return result;
     } catch (error) {
-      console.log(error);
+      throw (error);
     }
   };
   /***********************************************************************
@@ -83,6 +84,10 @@ export default class Utility {
    *  Validate the given expression                                      *
    ***********************************************************************/
   static isValidExpression = (exp) => {
+    let result=(exp.match(Reg.invalidCharacterPattern));
+    if (result){
+      throw new Error('The expression contains invalid character:'+result.join());
+    }
     if (Reg.invalidDecimalPointPattern.test(exp)) {
       throw new Error('The expression contains invalid decimal point pattern(s)');
     }
@@ -162,7 +167,6 @@ export default class Utility {
               break;
           }
         }
-
         if (flag) {
           flag = true;
           tokensQueue.push(new Num(operand));
